@@ -3,6 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from "../../firebase.init";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
 
@@ -43,9 +44,9 @@ const Register = () => {
     }
 
   return (
-    <div style={{ minHeight: "70vh" }}>
+    <div style={{ minHeight: "70vh" }} className="w-50 mx-auto">
       <h2 className="text-center mt-3 text-info">Please SignUp</h2>
-      <Form onSubmit={handleSubmit} className="w-50 mx-auto">
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Name</Form.Label>
           <Form.Control onBlur={handleNameBlur} type="text" placeholder="Enter your name" />
@@ -67,13 +68,15 @@ const Register = () => {
         >
           SignUp
         </Button>
+    
+      </Form>
         <p className="mt-2">
           Already Have an Account?
           <Link to="/login" className="text-decoration-none">
             Please SignIn
           </Link>
         </p>
-      </Form>
+        <SocialLogin></SocialLogin>
     </div>
   );
 };
