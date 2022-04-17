@@ -12,11 +12,11 @@ const Header = () => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#services">Services</Nav.Link>
-              <Nav.Link as={CustomLink} to="/checkout">Checkout</Nav.Link>
-              <Nav.Link as={CustomLink} to="/blogs">Blogs</Nav.Link>
+              
             </Nav>
             <Nav>
+              <Nav.Link href="home#services">Services</Nav.Link>
+              <Nav.Link as={CustomLink} to="/blogs">Blogs</Nav.Link>
               <Nav.Link as={CustomLink} to="/about">About Us</Nav.Link>
               <Nav.Link as={CustomLink  } to="/login">
                 SignIn
