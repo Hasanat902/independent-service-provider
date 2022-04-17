@@ -1,20 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { Link, useNavigate } from "react-router-dom";
+import auth from "../../firebase.init";
 
 const Login = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
+
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+      ] = useSignInWithEmailAndPassword(auth);
+
+    const handleEmailBlur = event => {
+        setEmail(event.target.value);
+    }
+
+    const handlePasswordBlur = event => {
+        setPassword(event.target.value);
+    }
+
+    if(user){
+        navigate('/home');
+    }
+
+    const handleSubmit = event => {
+        event.preventDefault();
+
+        signInWithEmailAndPassword(email, password);
+    }
+
   return (
     <div style={{ minHeight: "70vh" }}>
       <h2 className="text-center mt-3 text-info">Please SignIn</h2>
-      <Form className="w-50 mx-auto">
+      <Form onSubmit={handleSubmit} className="w-50 mx-auto">
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Enter email" required />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control onBlur={handlePasswordBlur} type="password" placeholder="Password" required />
         </Form.Group>
         <Button className="w-50 mx-auto d-block" variant="success" type="submit">
           SignIn
