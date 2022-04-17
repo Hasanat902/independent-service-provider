@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import auth from "../../firebase.init";
+import Loading from "../Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
@@ -10,6 +13,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const location = useLocation();
+    let errorElement;
 
     const navigate = useNavigate();
 
@@ -21,6 +25,14 @@ const Login = () => {
         loading,
         error,
       ] = useSignInWithEmailAndPassword(auth);
+    
+      const [sendPasswordResetEmail] = useSendPasswordResetEmail(
+        auth
+      );
+    
+      if(loading){
+          return <Loading></Loading>
+      }
 
     const handleEmailBlur = event => {
         setEmail(event.target.value);
@@ -34,10 +46,19 @@ const Login = () => {
         navigate(from, { replace: true });
     }
 
+    if(error){
+        errorElement = <p className="text-danger">Error: {error?.message}</p>
+    }
+
     const handleSubmit = event => {
         event.preventDefault();
 
         signInWithEmailAndPassword(email, password);
+    }
+
+    const resetPassword = async() => {
+        await sendPasswordResetEmail(email);
+        toast('Email sent');
     }
 
   return (
@@ -56,12 +77,14 @@ const Login = () => {
         <Button className="w-50 mx-auto d-block" variant="success" type="submit">
           SignIn
         </Button>
-        
       </Form>
+      {errorElement}
         <p className="mt-2">
           New to Authentic Homemade Food?<Link to='/register' className="text-decoration-none">Please SignUp</Link>
         </p>
-        <SocialLogin></SocialLogin>  
+        <p>Forget Password?<button className='btn btn-link text-primary text-decoration-none' onClick={resetPassword}>Reset Password</button> </p>
+        <SocialLogin></SocialLogin>
+        <ToastContainer></ToastContainer> 
     </div>
   );
 };
