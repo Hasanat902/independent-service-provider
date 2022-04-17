@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Service = ({service}) => {
 
     const {name, price, img, description} = service;
+
 
     return (
         <div className='col-12 col-md-6 col-lg-4'>
@@ -12,7 +14,7 @@ const Service = ({service}) => {
                     <h5 className="card-title">Package: {name}</h5>
                     <p className="card-title">Price: {price}</p>
                     <p className="card-text">{description}</p>
-                    <a href="#" className="btn btn-success mx-auto d-block">Order Now</a>
+                    <Link to='/checkout' className="btn btn-success mx-auto d-block w-50">Order Now</Link>
                 </div>
             </div>
             
