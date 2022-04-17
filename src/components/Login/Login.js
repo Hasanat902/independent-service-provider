@@ -2,7 +2,7 @@ import React from 'react';
 
 const Login = () => {
     return (
-        <div>
+        <div style={{minHeight: '70vh'}}>
             <h2>This login Page</h2>
         </div>
     );
